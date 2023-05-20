@@ -6,7 +6,8 @@ const { AppError, errorHandler } = require('../errorHandler');
 const {
     getAllBooks,
     getBook,
-    createBook
+    createBook,
+    deleteBook
 } = require("../queries/books");
 
 //GET all 
@@ -39,6 +40,17 @@ books.post("/", async (req, res, next) => {
         res.status(201).json(newBook);
     } catch (error) {
         res.status(400).json({error: error});
+    }
+})
+
+//DELETE
+books.delete("/:id", async (req, res, next ) => {
+    const {id} = req.params;
+    const deletedBook = await deleteBook(id);
+    if(deletedBook.id){
+        res.status(200).json(deletedBook);
+    }else{
+        res.status(404).json("book not found")
     }
 })
 

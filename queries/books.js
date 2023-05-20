@@ -41,11 +41,23 @@ const createBook = async (book) => {
     }
   };
   
+  const deleteBook = async (id) => {
+    try {
+      const deletedBook = await db.one(
+        'DELETE FROM books WHERE id=$1 RETURNING *',
+        id
+      )
+      return deletedBook;
+    }catch(error){
+      return {error: error}
+    }
+  }
 
 
 module.exports ={
     getAllBooks,
     getBook,
-    createBook
+    createBook,
+    deleteBook  
 };
 
