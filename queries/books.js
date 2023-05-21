@@ -53,11 +53,23 @@ const createBook = async (book) => {
     }
   }
 
+  const updateBook = async (id, book) => {
+    try {
+      const updatedBook = await db.one(
+        'UPDATE books SET title=$1, author=$2, year_published=$3, status=$4, reader_notes=$5, recommend_to=$6 WHERE id=$7 RETURNING *',
+         [book.title, book.author, book.year_published, book.status, book.reader_notes, book.recommend_to, id]
+      );
+      return updateBook;
+    }catch (error){
+      throw error;
+    }
+  }
 
 module.exports ={
     getAllBooks,
     getBook,
     createBook,
-    deleteBook  
+    deleteBook,
+    updateBook  
 };
 

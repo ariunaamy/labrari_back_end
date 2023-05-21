@@ -7,7 +7,8 @@ const {
     getAllBooks,
     getBook,
     createBook,
-    deleteBook
+    deleteBook,
+    updateBook
 } = require("../queries/books");
 
 //GET all 
@@ -52,6 +53,14 @@ books.delete("/:id", async (req, res, next ) => {
     }else{
         res.status(404).json("book not found")
     }
+})
+
+//PUT 
+books.put("/:id", async (req,res) => {
+    const {id} = req.params;
+    const {title, author, year_published, status, reader_notes, recommend_to} =req.body;
+    const updatedBook = await updateBook(id, req.body);
+    res.status(200).json(updatedBook);
 })
 
 books.use(errorHandler);
